@@ -1,17 +1,31 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from backend.routes import router
 
 app = FastAPI(
-    title="LegalEase API",
-    description="AI-Powered Legal Document Generator",
+    title="LegalEase - AI Legal Document Generator",
+    description="Backend API for AI-Powered Legal Document Generation using Google Gemini",
     version="1.0.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(router)
 
 
 @app.get("/")
-def root():
+def home():
     return {
-        "message": "LegalEase API is running"
+        "message": "Welcome to LegalEase AI Legal Document Generator API"
     }
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
